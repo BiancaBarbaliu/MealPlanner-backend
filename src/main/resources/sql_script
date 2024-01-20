@@ -1,0 +1,67 @@
+CREATE SCHEMA IF NOT EXISTS MealPlanner AUTHORIZATION admin;
+
+-- Create the Users table
+CREATE TABLE IF NOT EXISTS MealPlanner.Users (
+    user_id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255),
+    dietary_restrictions VARCHAR(255)
+);
+
+-- Create the Recipes table
+CREATE TABLE IF NOT EXISTS MealPlanner.Recipes (
+    recipe_id SERIAL PRIMARY KEY,
+    title VARCHAR(255),
+    preparation_time INTEGER,
+    cooking_instructions TEXT
+);
+
+-- Create the Ingredients table
+CREATE TABLE IF NOT EXISTS MealPlanner.Ingredients (
+    ingredient_id SERIAL PRIMARY KEY,
+    name VARCHAR(255)
+);
+
+-- Create the Meal_Plans table
+CREATE TABLE IF NOT EXISTS MealPlanner.Meal_Plans (
+    meal_plan_id SERIAL PRIMARY KEY,
+    user_id INTEGER references MealPlanner.Users(user_id),
+    date DATE
+);
+
+-- Create the Reviews table
+CREATE TABLE IF NOT EXISTS MealPlanner.Reviews (
+    review_id SERIAL PRIMARY KEY,
+    recipe_id INTEGER references MealPlanner.Recipes(recipe_id),
+    user_id INTEGER references MealPlanner.Users(user_id),
+    score INTEGER,
+    review_text VARCHAR(1000)
+);
+
+-- Create the Recipe_Ingredients junction table
+CREATE TABLE IF NOT EXISTS MealPlanner.Recipe_Ingredients (
+    recipe_id INTEGER references MealPlanner.Recipes(recipe_id),
+    ingredient_id INTEGER references MealPlanner.Ingredients(ingredient_id),
+    constraint recipe_ingredients_id primary key (recipe_id, ingredient_id),
+    quantity VARCHAR(255)
+);
+
+-- Create the MealPlan_Recipes junction table
+CREATE TABLE IF NOT EXISTS MealPlanner.MealPlan_Recipes (
+    meal_plan_id INTEGER references MealPlanner.Meal_Plans(meal_plan_id),
+    recipe_id INTEGER references MealPlanner.Recipes(recipe_id),
+    constraint meal_plan_recipes_id primary key (meal_plan_id, recipe_id),
+    meal_type VARCHAR(255)
+);
+
+-- Create the User_Allergens table
+CREATE TABLE IF NOT EXISTS MealPlanner.User_Allergens (
+    user_id INTEGER references MealPlanner.Users(user_id),
+    ingredient_id INTEGER references MealPlanner.Ingredients(ingredient_id),
+    constraint user_allergens_id primary key (user_id, ingredient_id)
+);
+
+
+
+   drop schema MealPlanner cascade;
