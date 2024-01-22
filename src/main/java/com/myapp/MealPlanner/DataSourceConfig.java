@@ -19,7 +19,7 @@ public class DataSourceConfig {
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUsername("admin");
         dataSource.setPassword("password");
-        dataSource.setSchema("MealPlanner");
+        dataSource.setSchema("mealplanner");
         dataSource.setUrl(
                 "jdbc:postgresql://localhost:5432/postgres");
 
@@ -28,15 +28,18 @@ public class DataSourceConfig {
     }
 
     @Bean
-    public CorsFilter corsFilter() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        final CorsConfiguration config = new CorsConfiguration();
-        config.setAllowCredentials(true);
-        config.addAllowedOrigin("http://localhost:4200");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
-        source.registerCorsConfiguration("/**", config);
-        return new CorsFilter(source);
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4200") // the Angular frontend's URL
+                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
     }
+
 
 }
