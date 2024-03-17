@@ -11,12 +11,15 @@ CREATE TABLE IF NOT EXISTS MealPlanner.Users (
 
 -- Create the Recipes table
 CREATE TABLE IF NOT EXISTS MealPlanner.Recipes (
-    recipe_id INTEGER PRIMARY KEY,
-    title VARCHAR(255),
+    recipe_id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    description TEXT,
     ingredients TEXT,
+    ingredients_raw TEXT,
     instructions TEXT,
-    image_name VARCHAR(255),
-    cleaned_ingredients TEXT
+    servings INTEGER,
+    serving_size VARCHAR(255),
+    tags TEXT
 );
 
 -- Create the Meal_Plans table
@@ -41,14 +44,3 @@ CREATE TABLE IF NOT EXISTS MealPlanner.MealPlan_Recipes (
     constraint meal_plan_recipes_id primary key (meal_plan_id, recipe_id),
     meal_type VARCHAR(255)
 );
-
--- Create the User_Allergens table
-CREATE TABLE IF NOT EXISTS MealPlanner.User_Allergens (
-    user_id INTEGER references MealPlanner.Users(user_id),
-    ingredient_id INTEGER references MealPlanner.Ingredients(ingredient_id),
-    constraint user_allergens_id primary key (user_id, ingredient_id)
-);
-
-   drop schema MealPlanner cascade;
-
-\copy mealplanner.recipes FROM 'C:/Users/bianc/OneDrive/Desktop/PROIECT_LICENTA/dataset/Recipes.csv' WITH CSV HEADER;

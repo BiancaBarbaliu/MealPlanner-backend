@@ -14,7 +14,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
     public RegisterRequest registerUser(RegisterRequest registerRequest){
-        var entity = Transformer.fromDto(registerRequest);
+        var entity = Transformer.toEntity(registerRequest);
         return Transformer.toDto(userRepository.save(entity));
     }
 }
