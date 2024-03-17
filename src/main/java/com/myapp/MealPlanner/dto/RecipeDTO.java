@@ -1,39 +1,14 @@
-package com.myapp.MealPlanner.entity;
+package com.myapp.MealPlanner.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "recipes")
-public class RecipeEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_id")
+public class RecipeDTO {
     private Long recipe_id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
-
-    @Column(name = "ingredients", columnDefinition = "TEXT")
     private String ingredients;
-
-    @Column(name = "ingredients_raw", columnDefinition = "TEXT")
     private String ingredients_raw;
-
-    @Column(name = "instructions", columnDefinition = "TEXT")
     private String instructions;
-
-    @Column(name = "servings")
     private int servings;
-
-    @Column(name = "serving_size")
     private String serving_size;
-
-    @Column(name= "tags", columnDefinition = "TEXT")
-    private String tags;
-
 
     public Long getRecipe_id() {
         return recipe_id;
@@ -89,14 +64,6 @@ public class RecipeEntity {
 
     public void setServing_size(String serving_size) {
         this.serving_size = serving_size;
-    }
-
-    public String getTags() {
-        return tags;
-    }
-
-    public void setTags(String tags) {
-        this.tags = tags;
     }
 
     public String getInstructions() {
