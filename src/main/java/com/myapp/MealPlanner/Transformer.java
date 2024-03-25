@@ -18,7 +18,7 @@ public class Transformer {
 
     public static RegisterRequest toDto(UserEntity userEntity){
         var dto = new RegisterRequest();
-        dto.setUser_id(userEntity.getUser_id());
+        dto.setUser_id(userEntity.getId());
         dto.setName(userEntity.getName());
         dto.setEmail(userEntity.getEmail());
         dto.setPassword(userEntity.getPassword());
@@ -28,7 +28,7 @@ public class Transformer {
 
     public static UserEntity toEntity(RegisterRequest registerRequest){
         var entity = new UserEntity();
-        entity.setUser_id(registerRequest.getUser_id());
+        entity.setId(registerRequest.getUser_id());
         entity.setName(registerRequest.getName());
         entity.setEmail(registerRequest.getEmail());
         entity.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
