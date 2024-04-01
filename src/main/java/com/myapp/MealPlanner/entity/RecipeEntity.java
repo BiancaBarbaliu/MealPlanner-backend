@@ -34,7 +34,6 @@ public class RecipeEntity {
     @Column(name= "tags", columnDefinition = "TEXT")
     private String tags;
 
-
     public Long getRecipe_id() {
         return recipe_id;
     }
@@ -106,4 +105,5 @@ public class RecipeEntity {
     public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
+
 }

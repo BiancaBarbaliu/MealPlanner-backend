@@ -37,10 +37,33 @@ CREATE TABLE IF NOT EXISTS MealPlanner.Reviews (
     score INTEGER,
     review_text VARCHAR(1000)
 );
+
 -- Create the MealPlan_Recipes junction table
-CREATE TABLE IF NOT EXISTS MealPlanner.MealPlan_Recipes (
-    meal_plan_id INTEGER references MealPlanner.Meal_Plans(meal_plan_id),
-    recipe_id INTEGER references MealPlanner.Recipes(recipe_id),
-    constraint meal_plan_recipes_id primary key (meal_plan_id, recipe_id),
-    meal_type VARCHAR(255)
+CREATE TABLE IF NOT EXISTS MealPlanner.MealPlan_Recipes(
+    meal_plan_id INTEGER,
+    recipe_id INTEGER,
+    PRIMARY KEY (meal_plan_id, recipe_id),
+    CONSTRAINT fk_meal_plan
+            FOREIGN KEY(meal_plan_id)
+    	        REFERENCES MealPlanner.Meal_Plans(meal_plan_id)
+    	        ON DELETE CASCADE,
+        CONSTRAINT fk_recipe
+            FOREIGN KEY(recipe_id)
+    	        REFERENCES MealPlanner.Recipes(recipe_id)
+    	        ON DELETE CASCADE
+    );
+
+-- Create the Saved_Recipes junction table
+CREATE TABLE IF NOT EXISTS MealPlanner.Saved_Recipes (
+    user_id INTEGER,
+    recipe_id INTEGER,
+    PRIMARY KEY (user_id, recipe_id),
+    CONSTRAINT fk_user
+        FOREIGN KEY(user_id)
+	        REFERENCES MealPlanner.Users(user_id)
+	        ON DELETE CASCADE,
+    CONSTRAINT fk_recipe
+        FOREIGN KEY(recipe_id)
+	        REFERENCES MealPlanner.Recipes(recipe_id)
+	        ON DELETE CASCADE
 );
