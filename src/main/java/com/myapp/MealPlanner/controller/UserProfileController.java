@@ -5,13 +5,11 @@ import com.myapp.MealPlanner.entity.RecipeEntity;
 import com.myapp.MealPlanner.entity.UserEntity;
 import com.myapp.MealPlanner.repository.UserRepository;
 import com.myapp.MealPlanner.service.RecipeService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -21,6 +19,15 @@ public class UserProfileController {
     public UserProfileController(RecipeService recipeService, UserRepository userRepository){
         this.recipeService = recipeService;
         this.userRepository = userRepository;
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<UserDTO> getUserProfile(@PathVariable Long userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + userId));
+
+        UserDTO userDTO = new UserDTO(user.getId(), user.getName(), user.getEmail());
+        return ResponseEntity.ok(userDTO);
     }
 
     @PostMapping("/{user_id}/saved-recipes/{recipe_id}")
@@ -33,21 +40,17 @@ public class UserProfileController {
         }
     }
 
-    @GetMapping("/{user_id}/saved-recipes")
-    public ResponseEntity<Page<RecipeEntity>> getSavedRecipesForUser(@PathVariable Long user_id, Pageable pageable) {
-        Page<RecipeEntity> savedRecipes = recipeService.getSavedRecipesForUser(user_id, pageable);
+//    @GetMapping("/{user_id}/saved-recipes")
+//    public ResponseEntity<Page<RecipeEntity>> getSavedRecipesForUser(@PathVariable Long user_id, Pageable pageable) {
+//        Page<RecipeEntity> savedRecipes = recipeService.getSavedRecipesForUser(user_id, pageable);
+//        return ResponseEntity.ok(savedRecipes);
+//    }
+
+    @GetMapping("/{userId}/saved-recipes")
+    public ResponseEntity<List<RecipeEntity>> getSavedRecipesForUser(@PathVariable Long userId) {
+        List<RecipeEntity> savedRecipes = recipeService.getSavedRecipesForUser(userId);
         return ResponseEntity.ok(savedRecipes);
     }
-
-    @GetMapping("/me")
-    public ResponseEntity<UserDTO> getCurrentUser() {
-        UserEntity user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-
-        UserDTO userDTO = new UserDTO(user.getId(), user.getEmail(), user.getName());
-        return ResponseEntity.ok(userDTO);
-    }
-
 
 
 }

@@ -12,6 +12,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Service
 @Transactional
@@ -54,14 +57,27 @@ public class RecipeService {
 
     }
 
-    public Page<RecipeEntity> getSavedRecipesForUser(Long user_id, Pageable pageable) {
-        Page<SavedRecipeEntity> savedRecipesPage = savedRecipeRepository.findAllByUserEntityId(user_id, pageable);
+//    public Page<RecipeEntity> getSavedRecipesForUser(Long user_id, Pageable pageable) {
+//        Page<SavedRecipeEntity> savedRecipesPage = savedRecipeRepository.findAllByUserEntityId(user_id, pageable);
+//
+//        return savedRecipesPage.map(savedRecipe -> {
+//            return recipeRepository.findById(savedRecipe.getSaved_recipe_id().getRecipe_id())
+//                    .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + savedRecipe.getSaved_recipe_id().getRecipe_id()));
+//        });
+//    }
 
-        return savedRecipesPage.map(savedRecipe -> {
-            return recipeRepository.findById(savedRecipe.getSaved_recipe_id().getRecipe_id())
-                    .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + savedRecipe.getSaved_recipe_id().getRecipe_id()));
-        });
+    public List<RecipeEntity> getSavedRecipesForUser(Long userId) {
+        List<SavedRecipeEntity> savedRecipes = savedRecipeRepository.findAllByUserEntityId(userId);
+        List<RecipeEntity> recipes = new ArrayList<>();
+
+        for (SavedRecipeEntity savedRecipe : savedRecipes) {
+            recipeRepository.findById(savedRecipe.getSaved_recipe_id().getRecipe_id())
+                    .ifPresent(recipes::add); // Add the recipe to the list if present
+        }
+
+        return recipes;
     }
+
 
 }
 

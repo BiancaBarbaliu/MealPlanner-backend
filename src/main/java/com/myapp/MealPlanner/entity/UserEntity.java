@@ -1,5 +1,6 @@
 package com.myapp.MealPlanner.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.Set;
@@ -25,6 +26,7 @@ public class UserEntity {
     private String dietary_restrictions;
 
     @OneToMany(mappedBy = "userEntity")
+    @JsonManagedReference
     private Set<SavedRecipeEntity> savedRecipes;
 
 

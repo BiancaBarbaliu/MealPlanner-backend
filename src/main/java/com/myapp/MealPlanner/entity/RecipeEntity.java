@@ -2,8 +2,6 @@ package com.myapp.MealPlanner.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Set;
-
 @Entity
 @Table(name = "recipes")
 public class RecipeEntity {
@@ -35,10 +33,6 @@ public class RecipeEntity {
 
     @Column(name= "tags", columnDefinition = "TEXT")
     private String tags;
-
-    @OneToMany(mappedBy = "recipeEntity")
-    private Set<SavedRecipeEntity> savedRecipes;
-
 
     public Long getRecipe_id() {
         return recipe_id;
@@ -112,11 +106,4 @@ public class RecipeEntity {
         this.instructions = instructions;
     }
 
-    public Set<SavedRecipeEntity> getSavedRecipes() {
-        return savedRecipes;
-    }
-
-    public void setSavedRecipes(Set<SavedRecipeEntity> savedRecipes) {
-        this.savedRecipes = savedRecipes;
-    }
 }
