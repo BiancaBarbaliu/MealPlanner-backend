@@ -1,7 +1,7 @@
 package com.myapp.MealPlanner.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.myapp.MealPlanner.SavedRecipeKey;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.myapp.MealPlanner.embeddable_keys.SavedRecipeKey;
 import jakarta.persistence.*;
 
 @Entity
@@ -12,12 +12,13 @@ public class SavedRecipeEntity {
     @ManyToOne
     @MapsId("userId")
     @JoinColumn(name = "user_id")
-    @JsonBackReference
+    @JsonIgnore
     private UserEntity userEntity;
 
     @ManyToOne
     @MapsId("recipeId")
     @JoinColumn(name = "recipe_id")
+    @JsonIgnore
     private RecipeEntity recipeEntity;
 
     public SavedRecipeKey getSaved_recipe_id() {

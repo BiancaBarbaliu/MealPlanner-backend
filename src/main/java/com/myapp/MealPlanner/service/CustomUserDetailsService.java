@@ -2,6 +2,7 @@ package com.myapp.MealPlanner.service;
 
 import com.myapp.MealPlanner.entity.UserEntity;
 import com.myapp.MealPlanner.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,7 @@ import java.util.Collections;
 
 
 @Service
+@Transactional
 public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     UserRepository userRepository;

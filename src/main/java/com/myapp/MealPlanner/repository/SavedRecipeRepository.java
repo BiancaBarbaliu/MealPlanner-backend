@@ -1,6 +1,6 @@
 package com.myapp.MealPlanner.repository;
 
-import com.myapp.MealPlanner.SavedRecipeKey;
+import com.myapp.MealPlanner.embeddable_keys.SavedRecipeKey;
 import com.myapp.MealPlanner.entity.SavedRecipeEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

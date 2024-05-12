@@ -1,6 +1,6 @@
 package com.myapp.MealPlanner.service;
 
-import com.myapp.MealPlanner.SavedRecipeKey;
+import com.myapp.MealPlanner.embeddable_keys.SavedRecipeKey;
 import com.myapp.MealPlanner.entity.RecipeEntity;
 import com.myapp.MealPlanner.entity.SavedRecipeEntity;
 import com.myapp.MealPlanner.repository.RecipeRepository;
@@ -57,22 +57,13 @@ public class RecipeService {
 
     }
 
-//    public Page<RecipeEntity> getSavedRecipesForUser(Long user_id, Pageable pageable) {
-//        Page<SavedRecipeEntity> savedRecipesPage = savedRecipeRepository.findAllByUserEntityId(user_id, pageable);
-//
-//        return savedRecipesPage.map(savedRecipe -> {
-//            return recipeRepository.findById(savedRecipe.getSaved_recipe_id().getRecipe_id())
-//                    .orElseThrow(() -> new RuntimeException("Recipe not found with id: " + savedRecipe.getSaved_recipe_id().getRecipe_id()));
-//        });
-//    }
-
     public List<RecipeEntity> getSavedRecipesForUser(Long userId) {
         List<SavedRecipeEntity> savedRecipes = savedRecipeRepository.findAllByUserEntityId(userId);
         List<RecipeEntity> recipes = new ArrayList<>();
 
         for (SavedRecipeEntity savedRecipe : savedRecipes) {
             recipeRepository.findById(savedRecipe.getSaved_recipe_id().getRecipe_id())
-                    .ifPresent(recipes::add); // Add the recipe to the list if present
+                    .ifPresent(recipes::add);
         }
 
         return recipes;

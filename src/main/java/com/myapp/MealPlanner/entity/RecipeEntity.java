@@ -1,6 +1,9 @@
 package com.myapp.MealPlanner.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 @Table(name = "recipes")
@@ -33,6 +36,9 @@ public class RecipeEntity {
 
     @Column(name= "tags", columnDefinition = "TEXT")
     private String tags;
+
+//    @OneToMany(mappedBy = "recipeEntity")
+//    private Set<MealPlanRecipeEntity> mealPlanRecipes;
 
     public Long getRecipe_id() {
         return recipe_id;
@@ -106,4 +112,11 @@ public class RecipeEntity {
         this.instructions = instructions;
     }
 
+//    public Set<MealPlanRecipeEntity> getMealPlanRecipes() {
+//        return mealPlanRecipes;
+//    }
+//
+//    public void setMealPlanRecipes(Set<MealPlanRecipeEntity> mealPlanRecipes) {
+//        this.mealPlanRecipes = mealPlanRecipes;
+//    }
 }
