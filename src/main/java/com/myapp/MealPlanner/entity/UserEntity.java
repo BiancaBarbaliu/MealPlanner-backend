@@ -1,9 +1,6 @@
 package com.myapp.MealPlanner.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -25,10 +22,23 @@ public class UserEntity {
     @Column(name = "dietary_restrictions")
     private String dietary_restrictions;
 
-    @OneToMany(mappedBy = "userEntity")
-    @JsonManagedReference
-    private Set<SavedRecipeEntity> savedRecipes;
+//    @OneToMany(mappedBy = "userEntity")
+//    @JsonManagedReference
+//    private Set<SavedRecipeEntity> savedRecipes;
 
+//    @OneToMany(mappedBy = "userEntity")
+//    @JsonManagedReference
+//    private Set<MealPlanEntity> mealPlans;
+
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", dietary_restrictions='" + dietary_restrictions + '\'' +
+                '}';
+    }
 
     public Long getId() {
         return id;
@@ -70,11 +80,19 @@ public class UserEntity {
         this.dietary_restrictions = dietary_restrictions;
     }
 
-    public Set<SavedRecipeEntity> getSavedRecipes() {
-        return savedRecipes;
-    }
+//    public Set<SavedRecipeEntity> getSavedRecipes() {
+//        return savedRecipes;
+//    }
+//
+//    public void setSavedRecipes(Set<SavedRecipeEntity> savedRecipes) {
+//        this.savedRecipes = savedRecipes;
+//    }
 
-    public void setSavedRecipes(Set<SavedRecipeEntity> savedRecipes) {
-        this.savedRecipes = savedRecipes;
-    }
+//    public Set<MealPlanEntity> getMealPlans() {
+//        return mealPlans;
+//    }
+//
+//    public void setMealPlans(Set<MealPlanEntity> mealPlans) {
+//        this.mealPlans = mealPlans;
+//    }
 }

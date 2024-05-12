@@ -5,6 +5,10 @@ public class UserDTO {
     private String name;
     private String email;
 
+    public UserDTO(){
+
+    }
+
     public UserDTO(Long id, String name, String email){
         this.id = id;
         this.name = name;
@@ -33,6 +37,15 @@ public class UserDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" +
+                "Id=" + id +
+                ", name=" + name +
+                ", email=" + email +
+                '}';
     }
 
 }
