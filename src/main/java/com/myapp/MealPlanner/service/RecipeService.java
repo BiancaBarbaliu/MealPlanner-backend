@@ -7,6 +7,8 @@ import com.myapp.MealPlanner.repository.RecipeRepository;
 import com.myapp.MealPlanner.repository.SavedRecipeRepository;
 import com.myapp.MealPlanner.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class RecipeService {
     private final RecipeRepository recipeRepository;
     private final UserRepository userRepository;
     private final SavedRecipeRepository savedRecipeRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(RecipeService.class);
     public RecipeService(RecipeRepository recipeRepository, UserRepository userRepository, SavedRecipeRepository savedRecipeRepository){
         this.recipeRepository = recipeRepository;
         this.userRepository = userRepository;
@@ -65,10 +69,9 @@ public class RecipeService {
             recipeRepository.findById(savedRecipe.getSaved_recipe_id().getRecipe_id())
                     .ifPresent(recipes::add);
         }
-
+//        recipes.forEach(recipe -> logger.info("Fetched recipe: {}", recipe));
         return recipes;
     }
-
 
 }
 

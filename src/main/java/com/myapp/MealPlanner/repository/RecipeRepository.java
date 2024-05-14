@@ -6,8 +6,14 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Collection;
+import java.util.List;
+
 @Repository
 public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     Page<RecipeEntity> findByTagsContainingIgnoreCase(String keyword, Pageable pageable);
+    List<RecipeEntity> findByTagsIn(Collection<String> tags);
+
+    Page<RecipeEntity> findAll(Pageable pageable);
 }
 
