@@ -13,16 +13,14 @@ import com.myapp.MealPlanner.repository.MealPlanRepository;
 import com.myapp.MealPlanner.repository.RecipeRepository;
 import com.myapp.MealPlanner.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,7 +89,7 @@ public class MealPlanService {
         List<MealPlanEntity> mealPlans = mealPlanRepository.findByUserEntityIdAndDateFetchRecipes(userId, date);
         if (mealPlans.isEmpty()) {
             logger.info("No meal plans found for user {} on date {}", userId, date);
-            return Collections.emptyList();  // Ensure an empty list is returned
+            return Collections.emptyList();
         }
         return mealPlans.stream()
                 .map(Transformer::toDTO)

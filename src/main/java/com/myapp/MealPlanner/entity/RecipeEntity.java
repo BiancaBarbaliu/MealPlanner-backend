@@ -1,9 +1,13 @@
 package com.myapp.MealPlanner.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.*;
+import org.slf4j.LoggerFactory;
 
-import java.util.Set;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 @Table(name = "recipes")
@@ -36,6 +40,10 @@ public class RecipeEntity {
 
     @Column(name= "tags", columnDefinition = "TEXT")
     private String tags;
+
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(RecipeEntity.class);
+
+    private static final ObjectMapper mapper = new ObjectMapper();
 
 //    @OneToMany(mappedBy = "recipeEntity")
 //    private Set<MealPlanRecipeEntity> mealPlanRecipes;
@@ -100,6 +108,18 @@ public class RecipeEntity {
         return tags;
     }
 
+    public List<String> getTagsInList() {
+        if (tags == null || tags.trim().isEmpty()) {
+            return Collections.emptyList();
+        }
+        try {
+            return mapper.readValue(tags, new TypeReference<List<String>>() {});
+        } catch (IOException e) {
+            logger.error("Error parsing tags from JSON: '{}'", tags, e);
+            return Collections.emptyList();
+        }
+    }
+
     public void setTags(String tags) {
         this.tags = tags;
     }
@@ -110,6 +130,17 @@ public class RecipeEntity {
 
     public void setInstructions(String instructions) {
         this.instructions = instructions;
+    }
+
+    @Override
+    public String toString() {
+        return "RecipeEntity{" +
+                "id=" + recipe_id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", ingredients='" + ingredients + '\'' +
+                ", tags='" + tags + '\'' +
+                '}';
     }
 
 //    public Set<MealPlanRecipeEntity> getMealPlanRecipes() {

@@ -3,12 +3,19 @@ package com.myapp.MealPlanner.controller;
 import com.myapp.MealPlanner.Transformer;
 import com.myapp.MealPlanner.dto.RecipeDTO;
 import com.myapp.MealPlanner.entity.RecipeEntity;
+import com.myapp.MealPlanner.entity.UserEntity;
 import com.myapp.MealPlanner.repository.RecipeRepository;
+import com.myapp.MealPlanner.repository.UserRepository;
+import com.myapp.MealPlanner.service.RecipeRecommendationService;
 import com.myapp.MealPlanner.service.RecipeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +27,16 @@ import java.util.stream.Collectors;
 public class RecipeController {
     private final RecipeService recipeService;
     private final RecipeRepository recipeRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(RecipeController.class);
+
+    @Autowired
+    private RecipeRecommendationService recommendationService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+
     public RecipeController(RecipeService recipeService, RecipeRepository recipeRepository){
         this.recipeService = recipeService;
         this.recipeRepository = recipeRepository;
@@ -53,7 +70,6 @@ public class RecipeController {
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
-
 
     @GetMapping("/lunch/limited")
     public ResponseEntity<List<RecipeDTO>> getLimitedLunchRecipes(@RequestParam(name = "limit", defaultValue = "5") int limit) {
@@ -153,7 +169,19 @@ public class RecipeController {
         return ResponseEntity.ok(new PageImpl<>(recipeDTOs, pageable, allRecipes.getTotalElements()));
     }
 
+    @GetMapping(value = "/recommendations/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<RecipeDTO>> getRecommendations(@PathVariable Long userId) {
 
+        UserEntity userEntity = userRepository.findById(userId).orElse(null);
+        if (userEntity == null) {
+            return ResponseEntity.ok(List.of());
+        }
+
+        List<RecipeDTO> recommendations = recommendationService.recommendRecipes(userEntity);
+        logger.info("Recommendations DTO: {}", recommendations);
+
+        return ResponseEntity.ok(recommendations);
+    }
 
 }
 

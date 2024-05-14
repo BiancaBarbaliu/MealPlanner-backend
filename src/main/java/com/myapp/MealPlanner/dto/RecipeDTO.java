@@ -73,4 +73,14 @@ public class RecipeDTO {
     public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
+
+    @Override
+    public String toString() {
+        return "RecipeDTO{" +
+                "id=" + recipe_id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", ingredients='" + ingredients + '\'' +
+                '}';
+    }
 }
