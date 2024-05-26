@@ -15,5 +15,7 @@ public interface RecipeRepository extends JpaRepository<RecipeEntity, Long> {
     List<RecipeEntity> findByTagsIn(Collection<String> tags);
 
     Page<RecipeEntity> findAll(Pageable pageable);
+
+    List<RecipeEntity> findByKcalTotalLessThanEqualAndSearchTermsContaining(double kcalTotal, String searchTerm);
 }
 

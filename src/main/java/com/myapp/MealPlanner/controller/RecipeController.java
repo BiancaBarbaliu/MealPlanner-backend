@@ -183,6 +183,15 @@ public class RecipeController {
         return ResponseEntity.ok(recommendations);
     }
 
+    @GetMapping(value = "/recommend", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<RecipeEntity>> recommendRecipes(@RequestParam double calories, @RequestParam String mealType) {
+        List<RecipeEntity> recommendedRecipes = recipeService.getRecommendationsByKcalAndMealType(calories, mealType);
+
+        logger.info("Recommended recipes by kcal and meal type: {}", recommendedRecipes);
+        return ResponseEntity.ok(recommendedRecipes);
+    }
+
+
 }
 
 

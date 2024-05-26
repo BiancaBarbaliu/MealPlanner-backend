@@ -10,6 +10,12 @@ public class RecipeDTO {
     private int servings;
     private String serving_size;
 
+    private String searchTerms;
+
+    private Double kcalTotal;
+
+    private String photoPath;
+
     public Long getRecipe_id() {
         return recipe_id;
     }
@@ -82,5 +88,29 @@ public class RecipeDTO {
                 ", description='" + description + '\'' +
                 ", ingredients='" + ingredients + '\'' +
                 '}';
+    }
+
+    public String getSearchTerms() {
+        return searchTerms;
+    }
+
+    public void setSearchTerms(String searchTerms) {
+        this.searchTerms = searchTerms;
+    }
+
+    public Double getKcalTotal() {
+        return kcalTotal;
+    }
+
+    public void setKcalTotal(Double kcalTotal) {
+        this.kcalTotal = kcalTotal;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 }
