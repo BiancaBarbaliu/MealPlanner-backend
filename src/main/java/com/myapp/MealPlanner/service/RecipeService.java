@@ -73,5 +73,10 @@ public class RecipeService {
         return recipes;
     }
 
+    public List<RecipeEntity> getRecommendationsByKcalAndMealType(double calories, String mealType) {
+        List<RecipeEntity> recommendedRecipes = recipeRepository.findByKcalTotalLessThanEqualAndSearchTermsContaining(calories, mealType);
+        return recommendedRecipes;
+    }
+
 }
 

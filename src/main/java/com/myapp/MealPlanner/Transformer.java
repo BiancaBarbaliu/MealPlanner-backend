@@ -68,6 +68,9 @@ public class Transformer {
         dto.setInstructions(recipeEntity.getInstructions());
         dto.setServings(recipeEntity.getServings());
         dto.setServing_size(recipeEntity.getServing_size());
+        dto.setKcalTotal(recipeEntity.getKcalTotal());
+        dto.setSearchTerms(recipeEntity.getSearchTerms());
+        dto.setPhotoPath(recipeEntity.getPhotoPath());
         return dto;
     }
 
@@ -81,6 +84,9 @@ public class Transformer {
         entity.setInstructions(recipeDTO.getInstructions());
         entity.setServings(recipeDTO.getServings());
         entity.setServing_size(recipeDTO.getServing_size());
+        entity.setKcalTotal(recipeDTO.getKcalTotal());
+        entity.setSearchTerms(recipeDTO.getSearchTerms());
+        entity.setPhotoPath(recipeDTO.getPhotoPath());
         return entity;
     }
 

@@ -38,8 +38,18 @@ public class RecipeEntity {
     @Column(name = "serving_size")
     private String serving_size;
 
-    @Column(name= "tags", columnDefinition = "TEXT")
+    @Column(name = "tags", columnDefinition = "TEXT")
     private String tags;
+
+    @Column(name = "search_terms", columnDefinition = "TEXT" )
+    private String searchTerms;
+
+    @Column(name = "kcal_total")
+    private Double kcalTotal;
+
+    @Column(name = "photo_path")
+    private String photoPath;
+
 
     private static final org.slf4j.Logger logger = LoggerFactory.getLogger(RecipeEntity.class);
 
@@ -141,6 +151,30 @@ public class RecipeEntity {
                 ", ingredients='" + ingredients + '\'' +
                 ", tags='" + tags + '\'' +
                 '}';
+    }
+
+    public String getSearchTerms() {
+        return searchTerms;
+    }
+
+    public void setSearchTerms(String searchTerms) {
+        this.searchTerms = searchTerms;
+    }
+
+    public Double getKcalTotal() {
+        return kcalTotal;
+    }
+
+    public void setKcalTotal(Double kcalTotal) {
+        this.kcalTotal = kcalTotal;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
 //    public Set<MealPlanRecipeEntity> getMealPlanRecipes() {
