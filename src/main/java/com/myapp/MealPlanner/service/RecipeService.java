@@ -69,7 +69,6 @@ public class RecipeService {
             recipeRepository.findById(savedRecipe.getSaved_recipe_id().getRecipe_id())
                     .ifPresent(recipes::add);
         }
-//        recipes.forEach(recipe -> logger.info("Fetched recipe: {}", recipe));
         return recipes;
     }
 
@@ -77,6 +76,31 @@ public class RecipeService {
         List<RecipeEntity> recommendedRecipes = recipeRepository.findByKcalTotalLessThanEqualAndSearchTermsContaining(calories, mealType);
         return recommendedRecipes;
     }
+
+    public void deleteSavedRecipe(Long userId, Long recipeId) {
+        userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + userId));
+        recipeRepository.findById(recipeId)
+                .orElseThrow(() -> new EntityNotFoundException("Recipe not found with id: " + recipeId));
+
+        SavedRecipeKey key = new SavedRecipeKey();
+        key.setUser_id(userId);
+        key.setRecipe_id(recipeId);
+
+        SavedRecipeEntity savedRecipe = savedRecipeRepository.findById(key)
+                .orElseThrow(() -> new EntityNotFoundException("Saved recipe not found for user with id: " + userId + " and recipe with id: " + recipeId));
+
+        savedRecipeRepository.deleteById(key);
+    }
+
+//    public List<RecipeEntity> searchRecipes(String query) {
+//        return recipeRepository.findByNameContainingIgnoreCase(query);
+//    }
+
+    public Page<RecipeEntity> searchRecipes(String query, Pageable pageable) {
+        return recipeRepository.findByNameContainingIgnoreCase(query, pageable);
+    }
+
 
 }
 

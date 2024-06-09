@@ -96,7 +96,12 @@ public class MealPlanService {
                 .collect(Collectors.toList());
     }
 
-
+    public List<Date> getMealPlanDatesByUserId(Long userId) {
+        logger.info("Fetching meal plan dates for user {}", userId);
+        List<Date> mealPlanDates = mealPlanRepository.findDistinctDatesByUserId(userId);
+        logger.info("Meal plan dates retrieved for user {}: {}", userId, mealPlanDates);
+        return mealPlanDates;
+    }
 
 }
 

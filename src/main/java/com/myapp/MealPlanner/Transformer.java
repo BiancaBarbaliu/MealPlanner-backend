@@ -1,12 +1,12 @@
 package com.myapp.MealPlanner;
 
-import com.myapp.MealPlanner.dto.MealPlanDTO;
-import com.myapp.MealPlanner.dto.RecipeDTO;
-import com.myapp.MealPlanner.dto.RegisterRequest;
-import com.myapp.MealPlanner.dto.UserDTO;
+import com.myapp.MealPlanner.dto.*;
 import com.myapp.MealPlanner.entity.MealPlanEntity;
 import com.myapp.MealPlanner.entity.RecipeEntity;
+import com.myapp.MealPlanner.entity.ReviewEntity;
 import com.myapp.MealPlanner.entity.UserEntity;
+import com.myapp.MealPlanner.repository.RecipeRepository;
+import com.myapp.MealPlanner.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -23,13 +23,19 @@ public class Transformer {
         Transformer.passwordEncoder = passwordEncoder;
     }
 
+    @Autowired
+    private static RecipeRepository recipeRepository;
+
+    @Autowired
+    private static UserRepository userRepository;
+
     public static RegisterRequest toDto(UserEntity userEntity){
         var dto = new RegisterRequest();
         dto.setUser_id(userEntity.getId());
         dto.setName(userEntity.getName());
         dto.setEmail(userEntity.getEmail());
         dto.setPassword(userEntity.getPassword());
-        dto.setDietary_restrictions(userEntity.getDietary_restrictions());
+        dto.setDietary_restrictions(userEntity.getDietaryRestriction());
         return dto;
     }
 
@@ -47,7 +53,7 @@ public class Transformer {
         entity.setName(registerRequest.getName());
         entity.setEmail(registerRequest.getEmail());
         entity.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        entity.setDietary_restrictions(registerRequest.getDietary_restrictions());
+        entity.setDietaryRestriction(registerRequest.getDietary_restrictions());
         return entity;
     }
 
@@ -60,7 +66,7 @@ public class Transformer {
 
     public static RecipeDTO toDto(RecipeEntity recipeEntity){
         var dto = new RecipeDTO();
-        dto.setRecipe_id(recipeEntity.getRecipe_id());
+        dto.setRecipe_id(recipeEntity.getRecipeId());
         dto.setName(recipeEntity.getName());
         dto.setDescription(recipeEntity.getDescription());
         dto.setIngredients(recipeEntity.getIngredients());
@@ -76,7 +82,7 @@ public class Transformer {
 
     public static RecipeEntity toEntity(RecipeDTO recipeDTO){
         var entity = new RecipeEntity();
-        entity.setRecipe_id(recipeDTO.getRecipe_id());
+        entity.setRecipeId(recipeDTO.getRecipe_id());
         entity.setName(recipeDTO.getName());
         entity.setDescription(recipeDTO.getDescription());
         entity.setIngredients(recipeDTO.getIngredients());
@@ -98,7 +104,7 @@ public class Transformer {
         dto.setMeal_type(mealPlanEntity.getMeal_type());
         if (mealPlanEntity.getMealPlanRecipes() != null) {
             List<Long> recipeIds = mealPlanEntity.getMealPlanRecipes().stream()
-                    .map(mealPlanRecipe -> mealPlanRecipe.getRecipeEntity().getRecipe_id())
+                    .map(mealPlanRecipe -> mealPlanRecipe.getRecipeEntity().getRecipeId())
                     .collect(Collectors.toList());
             dto.setRecipeIds(recipeIds);
         }
@@ -111,6 +117,33 @@ public class Transformer {
         entity.setUserEntity(toEntity(mealPlanDTO.getUserDTO()));
         entity.setDate(mealPlanDTO.getDate());
         entity.setMeal_type(mealPlanDTO.getMeal_type());
+        return entity;
+    }
+
+    public static ReviewDTO toDTO(ReviewEntity reviewEntity) {
+        ReviewDTO dto = new ReviewDTO();
+        dto.setReviewId(reviewEntity.getReviewId());
+        dto.setRecipeId(reviewEntity.getRecipe().getRecipeId());
+        dto.setUserId(reviewEntity.getUser().getId());
+        dto.setScore(reviewEntity.getScore());
+        dto.setReviewText(reviewEntity.getReviewText());
+        return dto;
+    }
+
+    public static ReviewEntity toEntity(ReviewDTO reviewDTO, RecipeRepository recipeRepository, UserRepository userRepository) {
+        ReviewEntity entity = new ReviewEntity();
+        entity.setReviewId(reviewDTO.getReviewId());
+
+        RecipeEntity recipe = recipeRepository.findById(reviewDTO.getRecipeId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid recipe ID"));
+        entity.setRecipe(recipe);
+
+        UserEntity user = userRepository.findById(reviewDTO.getUserId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid user ID"));
+        entity.setUser(user);
+
+        entity.setScore(reviewDTO.getScore());
+        entity.setReviewText(reviewDTO.getReviewText());
         return entity;
     }
 }

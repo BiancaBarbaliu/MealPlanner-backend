@@ -15,4 +15,7 @@ public interface MealPlanRepository extends JpaRepository<MealPlanEntity,Long> {
             "LEFT JOIN FETCH mp.mealPlanRecipes mpr " +
             "WHERE mp.userEntity.id = :userId AND mp.date = :date")
     List<MealPlanEntity> findByUserEntityIdAndDateFetchRecipes(@Param("userId") Long userId, @Param("date") Date date);
+
+    @Query("SELECT DISTINCT mp.date FROM MealPlanEntity mp WHERE mp.userEntity.id = :userId")
+    List<Date> findDistinctDatesByUserId(@Param("userId") Long userId);
 }

@@ -28,7 +28,7 @@ public class RecipeRecommendationService {
     private static final Logger logger = LoggerFactory.getLogger(RecipeRecommendationService.class);
 
     public List<RecipeDTO> recommendRecipes(UserEntity userEntity) {
-        String userDietaryRestriction = userEntity.getDietary_restrictions();
+        String userDietaryRestriction = userEntity.getDietaryRestriction();
         logger.info("User dietary restriction: {}", userDietaryRestriction);
 
         List<String> favoriteTags = getFavoriteRecipeTags(userEntity.getId());
@@ -56,7 +56,7 @@ public class RecipeRecommendationService {
                 })
                 .map(recipe -> {
                     RecipeDTO dto = Transformer.toDto(recipe);
-                    logger.info("Transformed recipe ID {} to DTO.", recipe.getRecipe_id());
+                    logger.info("Transformed recipe ID {} to DTO.", recipe.getRecipeId());
                     return dto;
                 })
                 .collect(Collectors.toList());
