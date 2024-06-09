@@ -15,7 +15,7 @@ public class RecipeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_id")
-    private Long recipe_id;
+    private Long recipeId;
 
     @Column(name = "name")
     private String name;
@@ -55,15 +55,12 @@ public class RecipeEntity {
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
-//    @OneToMany(mappedBy = "recipeEntity")
-//    private Set<MealPlanRecipeEntity> mealPlanRecipes;
-
-    public Long getRecipe_id() {
-        return recipe_id;
+    public Long getRecipeId() {
+        return recipeId;
     }
 
-    public void setRecipe_id(Long recipe_id) {
-        this.recipe_id = recipe_id;
+    public void setRecipeId(Long recipe_id) {
+        this.recipeId = recipe_id;
     }
 
     public String getName() {
@@ -142,17 +139,6 @@ public class RecipeEntity {
         this.instructions = instructions;
     }
 
-    @Override
-    public String toString() {
-        return "RecipeEntity{" +
-                "id=" + recipe_id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", ingredients='" + ingredients + '\'' +
-                ", tags='" + tags + '\'' +
-                '}';
-    }
-
     public String getSearchTerms() {
         return searchTerms;
     }
@@ -177,11 +163,14 @@ public class RecipeEntity {
         this.photoPath = photoPath;
     }
 
-//    public Set<MealPlanRecipeEntity> getMealPlanRecipes() {
-//        return mealPlanRecipes;
-//    }
-//
-//    public void setMealPlanRecipes(Set<MealPlanRecipeEntity> mealPlanRecipes) {
-//        this.mealPlanRecipes = mealPlanRecipes;
-//    }
+    @Override
+    public String toString() {
+        return "RecipeEntity{" +
+                "id=" + recipeId +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", ingredients='" + ingredients + '\'' +
+                ", tags='" + tags + '\'' +
+                '}';
+    }
 }

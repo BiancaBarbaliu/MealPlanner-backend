@@ -53,4 +53,17 @@ public class MealPlanController {
         }
     }
 
+//    @GetMapping("/dates")
+//    public List<Date> getMealPlanDates(@RequestParam Long userId) {
+//        return mealPlanService.getMealPlanDatesByUserId(userId);
+//    }
+
+    @GetMapping("/dates")
+    public List<Date> getMealPlanDates(@RequestParam Long userId) {
+        logger.info("Received request for meal plan dates for user {}", userId);
+        List<Date> dates = mealPlanService.getMealPlanDatesByUserId(userId);
+        logger.info("Meal plan dates for user {}: {}", userId, dates);
+        return dates;
+    }
+
 }

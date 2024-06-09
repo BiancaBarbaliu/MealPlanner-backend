@@ -5,14 +5,25 @@ public class UserDTO {
     private String name;
     private String email;
 
+    private String dietaryRestriction;
+
+    public String getDietaryRestriction() {
+        return dietaryRestriction;
+    }
+
+    public void setDietaryRestriction(String dietaryRestriction) {
+        this.dietaryRestriction = dietaryRestriction;
+    }
+
     public UserDTO(){
 
     }
 
-    public UserDTO(Long id, String name, String email){
+    public UserDTO(Long id, String name, String email, String dietaryRestriction){
         this.id = id;
         this.name = name;
         this.email = email;
+        this.dietaryRestriction = dietaryRestriction;
     }
 
     public Long getId() {

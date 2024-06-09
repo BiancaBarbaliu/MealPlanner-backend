@@ -20,25 +20,7 @@ public class UserEntity {
     private String password;
 
     @Column(name = "dietary_restrictions")
-    private String dietary_restrictions;
-
-//    @OneToMany(mappedBy = "userEntity")
-//    @JsonManagedReference
-//    private Set<SavedRecipeEntity> savedRecipes;
-
-//    @OneToMany(mappedBy = "userEntity")
-//    @JsonManagedReference
-//    private Set<MealPlanEntity> mealPlans;
-
-    @Override
-    public String toString() {
-        return "UserEntity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", dietary_restrictions='" + dietary_restrictions + '\'' +
-                '}';
-    }
+    private String dietaryRestriction;
 
     public Long getId() {
         return id;
@@ -72,27 +54,22 @@ public class UserEntity {
         this.password = password;
     }
 
-    public String getDietary_restrictions() {
-        return dietary_restrictions;
+    public String getDietaryRestriction() {
+        return dietaryRestriction;
     }
 
-    public void setDietary_restrictions(String dietary_restrictions) {
-        this.dietary_restrictions = dietary_restrictions;
+    public void setDietaryRestriction(String dietaryRestriction) {
+        this.dietaryRestriction = dietaryRestriction;
     }
 
-//    public Set<SavedRecipeEntity> getSavedRecipes() {
-//        return savedRecipes;
-//    }
-//
-//    public void setSavedRecipes(Set<SavedRecipeEntity> savedRecipes) {
-//        this.savedRecipes = savedRecipes;
-//    }
+    @Override
+    public String toString() {
+        return "UserEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", dietary_restrictions='" + dietaryRestriction + '\'' +
+                '}';
+    }
 
-//    public Set<MealPlanEntity> getMealPlans() {
-//        return mealPlans;
-//    }
-//
-//    public void setMealPlans(Set<MealPlanEntity> mealPlans) {
-//        this.mealPlans = mealPlans;
-//    }
 }

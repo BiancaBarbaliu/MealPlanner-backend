@@ -190,7 +190,23 @@ public class RecipeController {
         logger.info("Recommended recipes by kcal and meal type: {}", recommendedRecipes);
         return ResponseEntity.ok(recommendedRecipes);
     }
+//
+//    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<List<RecipeEntity>> searchRecipes(@RequestParam String query) {
+//        List<RecipeEntity> recipes = recipeService.searchRecipes(query);
+//        return ResponseEntity.ok(recipes);
+//    }
 
+    @GetMapping(value = "/search", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Page<RecipeEntity>> searchRecipes(
+            @RequestParam String query,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<RecipeEntity> recipes = recipeService.searchRecipes(query, pageable);
+        return ResponseEntity.ok(recipes);
+    }
 
 }
 
